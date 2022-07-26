@@ -2,6 +2,7 @@
 Routes and views for the flask application.
 """
 
+from asyncio.log import logger
 from datetime import datetime
 from flask import render_template, flash, redirect, request, session, url_for
 from werkzeug.urls import url_parse
@@ -61,19 +62,19 @@ def post(id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        app.logger.error('admin logged in successfully')
+        logger.warning('admin logged in successfully')
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
-            app.logger.error('Invalid login attempt')
+            logger.warning('Invalid login attempt')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            app.logger.error('admin logged in successfully')
+            logger.warning('admin logged in successfully')
             next_page = url_for('home')
         return redirect(next_page)
     session["state"] = str(uuid.uuid4())
@@ -106,7 +107,7 @@ def authorized():
         user = User.query.filter_by(username="admin").first()
         login_user(user)
         _save_cache(cache)
-        app.logger.error('admin logged in successfully')
+        logger.warning('admin logged in successfully')
     return redirect(url_for('home'))
 
 @app.route('/logout')

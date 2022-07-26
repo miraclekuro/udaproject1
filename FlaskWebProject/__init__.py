@@ -1,6 +1,7 @@
 """
 The flask application package.
 """
+from asyncio.log import logger
 import logging
 from flask import Flask
 from config import Config
@@ -11,10 +12,10 @@ from flask_session import Session
 app = Flask(__name__)
 app.config.from_object(Config)
 # TODO: Add any logging levels and handlers with app.logger
-app.logger.setLevel(logging.ERROR)
+app.logger.setLevel(logging.WARNING)
 hanlder = logging.StreamHandler()
-hanlder.setLevel(logging.ERROR)
-app.logger.addHandler(hanlder)
+hanlder.setLevel(logging.WARNING)
+logger.addHandler(hanlder)
 Session(app)
 db = SQLAlchemy(app)
 login = LoginManager(app)

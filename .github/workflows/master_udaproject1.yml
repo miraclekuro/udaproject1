@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'udaproject1'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_621E0B5F4D854AFDB4EB5869CD34DB7A }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_15296C38D45B446BB322E814E82C1C26 }}
